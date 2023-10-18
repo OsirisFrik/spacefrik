@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://caw6u0xbs1jxu"]
+
+[ext_resource type="Script" path="res://scripts/entities/Player.gd" id="1_1l4ri"]
+[ext_resource type="PackedScene" uid="uid://br6rudrllv8gc" path="res://scenes/shot.tscn" id="2_imw6r"]
+[ext_resource type="Texture2D" uid="uid://b7u46niyrfhx4" path="res://assets/player/sprites/player2.png" id="2_tud4k"]
+[ext_resource type="Texture2D" uid="uid://t1ogdlnkp3kg" path="res://assets/player/sprites/player1.png" id="3_kqp85"]
+[ext_resource type="Texture2D" uid="uid://vwf4pwyk1fc1" path="res://assets/player/sprites/player3.png" id="4_j4jt8"]
+[ext_resource type="Texture2D" uid="uid://c8gw4nsn8x8u" path="res://assets/flash/flash.png" id="5_xgdfx"]
+[ext_resource type="AudioStream" uid="uid://bfwwxa5kp46vn" path="res://assets/Sound FX/shot 1.wav" id="6_pnpk0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cbiql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tud4k")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_kqp85")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_j4jt8")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5x3xg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_xgdfx")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"flash",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w63de"]
+size = Vector2(22, 13)
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(23, 80)
+motion_mode = 1
+script = ExtResource("1_1l4ri")
+shot = ExtResource("2_imw6r")
+metadata/_edit_horizontal_guides_ = [80.0]
+metadata/_edit_vertical_guides_ = [135.0]
+
+[node name="SpaceShip" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cbiql")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Flash" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5x3xg")
+animation = &"flash"
+frame = 1
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w63de")
+
+[node name="Settings" type="Node2D" parent="."]
+
+[node name="ShootSpawn" type="Marker2D" parent="Settings"]
+position = Vector2(11, 0)
+
+[node name="AudioShot" type="AudioStreamPlayer2D" parent="Settings"]
+position = Vector2(11, 0)
+stream = ExtResource("6_pnpk0")
+volume_db = -12.0

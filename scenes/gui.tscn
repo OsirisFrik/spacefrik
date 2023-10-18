@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1etiohjtls2b"]
+
+[ext_resource type="Script" path="res://scripts/scenes/Gui.gd" id="1_d7pi6"]
+[ext_resource type="Theme" uid="uid://cus2nxewq6ut3" path="res://assets/fonts/defaultTheme.tres" id="1_iach4"]
+
+[node name="Gui" type="CanvasLayer"]
+script = ExtResource("1_d7pi6")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 272.0
+offset_bottom = 160.0
+theme = ExtResource("1_iach4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 269.0
+offset_bottom = 158.0
+
+[node name="Score" type="Label" parent="Control/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="Lives" type="Label" parent="Control/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 6
+text = "Lives: 1"

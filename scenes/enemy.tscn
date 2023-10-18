@@ -1,0 +1,98 @@
+[gd_scene load_steps=16 format=3 uid="uid://dpbthifr4rvg"]
+
+[ext_resource type="Script" path="res://scripts/entities/Enemy.gd" id="1_5hc7c"]
+[ext_resource type="Texture2D" uid="uid://ddjx5tx1aow2m" path="res://assets/enemy/sprites/enemy1.png" id="1_24vqi"]
+[ext_resource type="Texture2D" uid="uid://dvr7j2qkyxsq3" path="res://assets/enemy/sprites/enemy2.png" id="3_2tfy7"]
+[ext_resource type="Texture2D" uid="uid://dixu88ndn681r" path="res://assets/enemy/sprites/enemy3.png" id="4_8kji1"]
+[ext_resource type="Texture2D" uid="uid://cr6x6d7eixa35" path="res://assets/enemy/sprites/enemy4.png" id="5_hpq2f"]
+[ext_resource type="Texture2D" uid="uid://cdngxbchdqlws" path="res://assets/enemy/sprites/enemy5.png" id="6_f0150"]
+[ext_resource type="Texture2D" uid="uid://640kv2qcs2px" path="res://assets/explosion/sprites/explosion1.png" id="7_rnl06"]
+[ext_resource type="Texture2D" uid="uid://ffsyw0eg5qa5" path="res://assets/explosion/sprites/explosion2.png" id="8_mv4sl"]
+[ext_resource type="Texture2D" uid="uid://bvist43hvt7ce" path="res://assets/explosion/sprites/explosion3.png" id="9_w8ci5"]
+[ext_resource type="Texture2D" uid="uid://1q4wvvn7uaul" path="res://assets/explosion/sprites/explosion4.png" id="10_gdekg"]
+[ext_resource type="Texture2D" uid="uid://bgncr0epme3hs" path="res://assets/explosion/sprites/explosion5.png" id="11_4r35a"]
+[ext_resource type="AudioStream" uid="uid://y0l4yjshih1l" path="res://assets/Sound FX/explosion.wav" id="12_yxx4f"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ij3ww"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_24vqi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2tfy7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8kji1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_hpq2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_f0150")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_20ajj"]
+size = Vector2(20, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8qc4u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rnl06")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mv4sl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_w8ci5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_gdekg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4r35a")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="Node2D"]
+position = Vector2(218, 80)
+script = ExtResource("1_5hc7c")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+sprite_frames = SubResource("SpriteFrames_ij3ww")
+animation = &"idle"
+frame_progress = 0.952023
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_20ajj")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Area2D"]
+
+[node name="Explosion" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8qc4u")
+animation = &"explosion"
+
+[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="Explosion"]
+stream = ExtResource("12_yxx4f")
+volume_db = -5.102
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="screen_exited" from="Area2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
+[connection signal="finished" from="Explosion/ExplosionAudio" to="." method="_on_explosion_audio_finished"]

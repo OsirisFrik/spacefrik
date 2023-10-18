@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv4g4s1t1qxrf"]
+
+[ext_resource type="Script" path="res://scripts/scenes/GaneOver.gd" id="1_8b3wr"]
+[ext_resource type="Theme" uid="uid://cus2nxewq6ut3" path="res://assets/fonts/defaultTheme.tres" id="2_i8may"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8b3wr")
+metadata/_edit_vertical_guides_ = [136.0]
+metadata/_edit_horizontal_guides_ = [80.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 160.0
+color = Color(0.164706, 0.133333, 0.215686, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 34.0
+offset_right = 270.0
+offset_bottom = 128.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_i8may")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_i8may")
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "YOUR SCORE: 0"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 30
+
+[node name="Reset" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_i8may")
+text = "RESET"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_i8may")
+text = "EXIT"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Reset" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]

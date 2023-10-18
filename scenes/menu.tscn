@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=3 uid="uid://c31r4svblhfc0"]
+
+[ext_resource type="Script" path="res://scripts/scenes/Menu.gd" id="1_jwudh"]
+[ext_resource type="Texture2D" uid="uid://c3jv2npk80x77" path="res://assets/background/bg-preview.png" id="2_b6oqi"]
+[ext_resource type="Theme" uid="uid://cus2nxewq6ut3" path="res://assets/fonts/defaultTheme.tres" id="3_gx0m5"]
+[ext_resource type="FontFile" uid="uid://cd1oifwro8ffm" path="res://assets/fonts/ARCADE_N.TTF" id="4_qc0ib"]
+[ext_resource type="AudioStream" uid="uid://b7p1vbs2lkeom" path="res://assets/music/exports/space-asteroids.mp3" id="5_mywj4"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jwudh")
+metadata/_edit_vertical_guides_ = [135.0]
+metadata/_edit_horizontal_guides_ = [80.0]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 272.0
+offset_bottom = 160.0
+texture = ExtResource("2_b6oqi")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 31.0
+offset_right = 244.0
+offset_bottom = 132.0
+
+[node name="Main" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="VBoxContainer" parent="MarginContainer/Main"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Main/Title"]
+layout_mode = 2
+theme = ExtResource("3_gx0m5")
+theme_override_fonts/font = ExtResource("4_qc0ib")
+text = "SPACEFRIK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/Main/Title"]
+layout_mode = 2
+theme = ExtResource("3_gx0m5")
+theme_override_font_sizes/font_size = 22
+text = "SHOOTER 2D"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/Main"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Start" type="Button" parent="MarginContainer/Main/Buttons"]
+layout_mode = 2
+theme = ExtResource("3_gx0m5")
+text = "Start"
+
+[node name="Exit" type="Button" parent="MarginContainer/Main/Buttons"]
+layout_mode = 2
+theme = ExtResource("3_gx0m5")
+text = "Exit"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_mywj4")
+autoplay = true
+
+[connection signal="pressed" from="MarginContainer/Main/Buttons/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/Main/Buttons/Exit" to="." method="_on_exit_pressed"]
