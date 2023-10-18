@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var explosion: bool = false
-@export var speed = 60
+@export var speed: float = 60
 
 func _process(delta):
 	if !explosion:

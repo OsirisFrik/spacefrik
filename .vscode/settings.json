@@ -1,0 +1,8 @@
+{
+  "editor.insertSpaces": false,
+  "editor.defaultFoldingRangeProvider": "geequlim.godot-tools",
+  "editor.defaultFormatter": "geequlim.godot-tools",
+  "editor.indentSize": "tabSize",
+  "editor.detectIndentation": false,
+	"editor.tabSize": 4
+}

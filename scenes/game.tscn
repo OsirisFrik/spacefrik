@@ -16,6 +16,7 @@ point_count = 4
 [node name="game" type="Node2D" groups=["game"]]
 script = ExtResource("1_il3fm")
 enemy = ExtResource("2_ogh5t")
+enemies = Array[PackedScene]([ExtResource("2_ogh5t")])
 
 [node name="CanvasLayer" parent="." instance=ExtResource("2_1eeg0")]
 
