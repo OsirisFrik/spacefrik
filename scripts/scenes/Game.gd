@@ -1,8 +1,7 @@
 extends Node2D
 
-@export var enemy: PackedScene
 @export var timerRange: float = 0.10
-@export var maxPointPerLvl: int = 5000
+@export var maxPointPerLvl: int = 1000
 @export var speedPerLvl: float = 0.90
 @export var enemies: Array[PackedScene] = []
 
@@ -12,24 +11,18 @@ func _ready():
 	GLOBAL.score = 0
 	GLOBAL.lives = 1
 	GLOBAL.lvl = 1
-	loadTimers()
-
-func loadTimers() -> void:
-	if timers.is_empty():
-		var timer: EnemyTimer = $"EnemyTimer" as EnemyTimer
-
-		timer.setup(
-			speedPerLvl * GLOBAL.lvl,
-			0
-		)
-		timer.connect("timeout", Callable(self, "_on_timer_timeout"))
-
-		timers.append(timer)
 
 func _process(delta: float) -> void:
 	parallax_bg(delta)
 
 	$Path2D/PathFollow2D.set_progress($Path2D/PathFollow2D.get_progress() + 80 * delta)
+
+	if GLOBAL.score >= maxPointPerLvl:
+		if GLOBAL.score == maxPointPerLvl:
+			$Settings/lvl_2.start()
+		elif GLOBAL.score >= maxPointPerLvl * 2 && $Settings/lvl_2.is_stopped():
+			print("lvl 3")
+			$Settings/lvl_3.start()
 
 
 
@@ -38,12 +31,10 @@ func parallax_bg(delta: float) -> void:
 	$Bg/Planet_1.scroll_base_offset -= Vector2(1, 0) * 24 * delta
 	$Bg/Planet_2.scroll_base_offset -= Vector2(1, 0) * 24 * delta
 
-func _on_timer_timeout(index: int):
+func _on_enemy_spawn(enemy: PackedScene):
+	print("enemy_spawn")
 	var enemy_instance = enemy.instantiate()
 
-	if GLOBAL.score % 1000 == 0 && GLOBAL.score % maxPointPerLvl != 0:
-		$Settings/Timer.wait_time = $Settings/Timer.wait_time - timerRange
-		print("Timer")
+	enemy_instance.global_position = $Path2D/PathFollow2D.global_position * GLOBAL.lvl
 
-	enemy_instance.global_position = $Path2D/PathFollow2D.global_position
 	add_child(enemy_instance)

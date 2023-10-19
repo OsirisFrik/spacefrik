@@ -15,9 +15,9 @@ func _input(event):
 
 func anim_ctrl() -> void:
 	if GLOBAL.get_axis().y > 0:
-		$SpaceShip.animation = "up"
-	elif GLOBAL.get_axis().y < 0:
 		$SpaceShip.animation = "down"
+	elif GLOBAL.get_axis().y < 0:
+		$SpaceShip.animation = "up"
 	else:
 		$SpaceShip.animation = "idle"
 

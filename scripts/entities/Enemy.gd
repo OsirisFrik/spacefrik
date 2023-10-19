@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var explosion: bool = false
 @export var speed: float = 60
+@export var points: int = 100
 
 func _process(delta):
 	if !explosion:
@@ -16,7 +17,7 @@ func explosion_ctrl() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Shot"):
 		explosion_ctrl()
-		GLOBAL.score += 100
+		GLOBAL.score += points
 
 func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
 	queue_free()

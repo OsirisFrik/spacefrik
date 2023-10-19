@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxxja4fmtwxxr"]
+[gd_scene load_steps=11 format=3 uid="uid://dxxja4fmtwxxr"]
 
 [ext_resource type="Script" path="res://scripts/scenes/Game.gd" id="1_il3fm"]
 [ext_resource type="AudioStream" uid="uid://b7p1vbs2lkeom" path="res://assets/music/exports/space-asteroids.mp3" id="1_qkooj"]
 [ext_resource type="PackedScene" uid="uid://c1etiohjtls2b" path="res://scenes/gui.tscn" id="2_1eeg0"]
 [ext_resource type="Texture2D" uid="uid://c3jv2npk80x77" path="res://assets/background/bg-preview.png" id="2_88okx"]
-[ext_resource type="PackedScene" uid="uid://dpbthifr4rvg" path="res://scenes/enemy.tscn" id="2_ogh5t"]
+[ext_resource type="PackedScene" uid="uid://dpbthifr4rvg" path="res://scenes/enemy_lvl_1.tscn" id="2_v64qi"]
+[ext_resource type="PackedScene" uid="uid://3twgijhkpol7" path="res://scenes/enemy_lvl_2.tscn" id="3_m0ach"]
+[ext_resource type="Script" path="res://scripts/objects/EnemyTimer.gd" id="5_gcbul"]
 [ext_resource type="PackedScene" uid="uid://caw6u0xbs1jxu" path="res://scenes/player.tscn" id="5_r2not"]
+[ext_resource type="PackedScene" uid="uid://bbo5ilyv8xc7d" path="res://scenes/enemy_lvl_3.tscn" id="7_xb4i1"]
 
 [sub_resource type="Curve2D" id="Curve2D_qfix5"]
 _data = {
@@ -15,8 +18,7 @@ point_count = 4
 
 [node name="game" type="Node2D" groups=["game"]]
 script = ExtResource("1_il3fm")
-enemy = ExtResource("2_ogh5t")
-enemies = Array[PackedScene]([ExtResource("2_ogh5t")])
+enemies = Array[PackedScene]([ExtResource("2_v64qi"), ExtResource("3_m0ach"), ExtResource("7_xb4i1")])
 
 [node name="CanvasLayer" parent="." instance=ExtResource("2_1eeg0")]
 
@@ -26,9 +28,20 @@ enemies = Array[PackedScene]([ExtResource("2_ogh5t")])
 stream = ExtResource("1_qkooj")
 autoplay = true
 
-[node name="Timer" type="Timer" parent="Settings"]
-wait_time = 0.92
+[node name="lvl_1" type="Timer" parent="Settings"]
+wait_time = 0.9
 autostart = true
+script = ExtResource("5_gcbul")
+enemy = ExtResource("2_v64qi")
+
+[node name="lvl_2" type="Timer" parent="Settings"]
+script = ExtResource("5_gcbul")
+enemy = ExtResource("3_m0ach")
+
+[node name="lvl_3" type="Timer" parent="Settings"]
+wait_time = 0.85
+script = ExtResource("5_gcbul")
+enemy = ExtResource("7_xb4i1")
 
 [node name="Bg" type="Node" parent="."]
 
@@ -81,4 +94,6 @@ rotation = 1.5708
 
 [node name="Player" parent="." instance=ExtResource("5_r2not")]
 
-[connection signal="timeout" from="Settings/Timer" to="." method="_on_timer_timeout"]
+[connection signal="enemy_spawn" from="Settings/lvl_1" to="." method="_on_enemy_spawn"]
+[connection signal="enemy_spawn" from="Settings/lvl_2" to="." method="_on_enemy_spawn"]
+[connection signal="enemy_spawn" from="Settings/lvl_3" to="." method="_on_enemy_spawn"]

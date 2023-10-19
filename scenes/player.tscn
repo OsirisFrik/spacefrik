@@ -62,7 +62,7 @@ metadata/_edit_vertical_guides_ = [135.0]
 
 [node name="SpaceShip" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_cbiql")
-animation = &"idle"
+animation = &"down"
 autoplay = "idle"
 
 [node name="Flash" type="AnimatedSprite2D" parent="."]

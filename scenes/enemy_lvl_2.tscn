@@ -1,0 +1,127 @@
+[gd_scene load_steps=17 format=3 uid="uid://3twgijhkpol7"]
+
+[ext_resource type="Script" path="res://scripts/entities/Enemy.gd" id="1_q5d7x"]
+[ext_resource type="Texture2D" uid="uid://bwrduxq7tojqp" path="res://assets/ships/Ship2/Ship2.png" id="2_ulvu3"]
+[ext_resource type="Texture2D" uid="uid://udufa2cv0pfa" path="res://assets/ships/Ship2/Exhaust/Normal_flight/Exhaust2/exhaust1.png" id="3_krnev"]
+[ext_resource type="Texture2D" uid="uid://f8ah3u107dgq" path="res://assets/ships/Ship2/Exhaust/Normal_flight/Exhaust2/exhaust2.png" id="4_vt5mc"]
+[ext_resource type="Texture2D" uid="uid://b5m73g74nb3au" path="res://assets/ships/Ship2/Exhaust/Normal_flight/Exhaust2/exhaust3.png" id="5_od2l0"]
+[ext_resource type="Texture2D" uid="uid://brs0btfxfrtkp" path="res://assets/ships/Ship2/Exhaust/Normal_flight/Exhaust2/exhaust4.png" id="6_0kess"]
+[ext_resource type="Texture2D" uid="uid://640kv2qcs2px" path="res://assets/explosion/sprites/explosion1.png" id="7_1up04"]
+[ext_resource type="Texture2D" uid="uid://ffsyw0eg5qa5" path="res://assets/explosion/sprites/explosion2.png" id="8_e6qrr"]
+[ext_resource type="Texture2D" uid="uid://bvist43hvt7ce" path="res://assets/explosion/sprites/explosion3.png" id="9_gd8uy"]
+[ext_resource type="Texture2D" uid="uid://1q4wvvn7uaul" path="res://assets/explosion/sprites/explosion4.png" id="10_ionw8"]
+[ext_resource type="Texture2D" uid="uid://bgncr0epme3hs" path="res://assets/explosion/sprites/explosion5.png" id="11_0db6w"]
+[ext_resource type="AudioStream" uid="uid://y0l4yjshih1l" path="res://assets/Sound FX/explosion.wav" id="12_ueoke"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ij3ww"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ulvu3")
+}],
+"loop": true,
+"name": &"iddle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_20ajj"]
+size = Vector2(20, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lqnxb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_krnev")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vt5mc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_od2l0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0kess")
+}],
+"loop": true,
+"name": &"default",
+"speed": 24.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8qc4u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1up04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_e6qrr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_gd8uy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ionw8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0db6w")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="Node2D"]
+position = Vector2(218, 80)
+script = ExtResource("1_q5d7x")
+speed = 80.0
+points = 150
+
+[node name="Area2D" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_ij3ww")
+animation = &"iddle"
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_20ajj")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Area2D"]
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Area2D"]
+z_index = -1
+position = Vector2(14, -2)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_lqnxb")
+autoplay = "default"
+frame_progress = 0.159202
+flip_h = true
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="Area2D"]
+z_index = -1
+position = Vector2(14, 2)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_lqnxb")
+autoplay = "default"
+frame_progress = 0.415261
+flip_h = true
+
+[node name="Explosion" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8qc4u")
+animation = &"explosion"
+
+[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="Explosion"]
+stream = ExtResource("12_ueoke")
+volume_db = -5.102
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="screen_exited" from="Area2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
+[connection signal="finished" from="Explosion/ExplosionAudio" to="." method="_on_explosion_audio_finished"]
